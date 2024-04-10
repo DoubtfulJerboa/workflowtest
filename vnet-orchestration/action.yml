@@ -21,6 +21,7 @@ runs:
   using: 'composite'
   steps:
     - name: Default vnet name
+      shell: bash
       id: vnetname
       # Sets substitutes and assigns name var to resource group if vnet name is blank
       run: |
@@ -29,6 +30,7 @@ runs:
         echo "vnetname=$name" >> $GITHUB_OUTPUT
         
     - name: VNet heartbeat
+      shell: bash
       id: heartbeat
       run: |
         echo '### V-Net Heartbeat' >> $GITHUB_STEP_SUMMARY
@@ -50,6 +52,7 @@ runs:
         fi
 
     - name: 'Create a virtual network'
+      shell: bash
       if: steps.heartbeat.outputs.vnet == 'missing'
       run: |
         # Create the VNET
