@@ -44,7 +44,7 @@ runs:
           allfound=$(echo "$query" | jq '.[].name')
           search=$(echo "$query" | jq ".[] | select(.name==\"${{ steps.vnetname.outputs.vnetname }}\") | .name")
           msg=$"Found:\n$allfound"
-          echo "$msg" >> $GITHUB_STEP_SUMMARY
+          echo -e "$msg" >> $GITHUB_STEP_SUMMARY
           if ! [ $search ]; then
             echo "vnet=missing" >> $GITHUB_OUTPUT
             echo "${{ steps.vnetname.outputs.vnetname }} not found" >> $GITHUB_STEP_SUMMARY
