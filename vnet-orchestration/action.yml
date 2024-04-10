@@ -1,0 +1,62 @@
+name: Azure Vnet Ochestration
+description: Orchestrates and deploys the azure vnet
+
+inputs:
+  GITHUB_ENVIRONMENT:
+    type: string
+    default: ''
+  AZURE_RESOURCE_GROUP:
+    type: string
+    required: true
+  AZURE_LOCATION:
+    required: true
+    type: string
+  VNET_NAME:
+    type: string
+    default: ''
+
+
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Default vnet name
+      id: vnetname
+      # Sets substitutes and assigns name var to resource group if vnet name is blank
+      run: |
+        name=$(echo "${{ inputs.VNET_NAME }}")
+        name=$(echo ${name:=${{ inputs.AZURE_RESOURCE_GROUP }}-vnet}) 
+        echo "vnetname=$name" >> $GITHUB_OUTPUT
+        
+    - name: VNet heartbeat
+      id: heartbeat
+      run: |
+        echo '### V-Net Heartbeat' >> $GITHUB_STEP_SUMMARY
+        # Check if a vnet exists already with the name
+        query=$(az network vnet list --resource-group ${{ inputs.AZURE_RESOURCE_GROUP }})
+        len=$(echo "$query" | jq 'length')
+        if [ "$len" -eq 0 ]; then
+          echo "vnet=missing" >> $GITHUB_OUTPUT
+          echo 'No vnet found' >> $GITHUB_STEP_SUMMARY
+        else
+          allfound=$(echo "$query" | jq '.[].name')
+          search=$(echo "$query" | jq ".[] | select(.name==\"${{ steps.vnetname.outputs.vnetname }}\") | .name")
+          msg=$"Found:\n$allfound"
+          echo "$msg" >> $GITHUB_STEP_SUMMARY
+          if ! [ $search ]; then
+            echo "vnet=missing" >> $GITHUB_OUTPUT
+            echo "${{ steps.vnetname.outputs.vnetname }} not found" >> $GITHUB_STEP_SUMMARY
+          fi
+        fi
+
+    - name: 'Create a virtual network'
+      if: steps.heartbeat.outputs.vnet == 'missing'
+      run: |
+        # Create the VNET
+        # az network vnet create \
+        #   --name '${{ steps.vnetname.outputs.vnetname }}' \
+        #   --resource-group '${{ inputs.AZURE_RESOURCE_GROUP }}' \
+        #   --location '${{ inputs.AZURE_LOCATION }}'
+        
+        echo 'Virtual Network ${{ steps.vnetname.outputs.vnetname }} | Created' >> $GITHUB_STEP_SUMMARY 
+            

@@ -1,0 +1,23 @@
+name: Test Modular Ochestration
+
+on:
+  - push
+
+jobs:
+  azure-orchestration:
+    runs-on: ubuntu-latest
+    steps:
+      # - name: Azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: actions/checkout@v3 # necessary for using local actions
+      
+      - name: Vnet orchestration
+        uses: ./.github/vnet-orchestration
+        with: 
+          GITHUB_ENVIRONMENT: ''
+          AZURE_RESOURCE_GROUP: portal
+          AZURE_LOCATION: ''
+          VNET_NAME: ''
