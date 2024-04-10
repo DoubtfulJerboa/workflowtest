@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3 # necessary for using local actions
       
       - name: Vnet orchestration
-        uses: ./.github/vnet-orchestration
+        uses: ./vnet-orchestration
         with: 
           GITHUB_ENVIRONMENT: ''
           AZURE_RESOURCE_GROUP: portal
