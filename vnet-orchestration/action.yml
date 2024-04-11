@@ -2,9 +2,6 @@ name: Azure Storage Account Ochestration
 description: Orchestrates the azure storage account
 
 inputs:
-  GITHUB_ENVIRONMENT:
-    type: string
-    default: ''
   AZURE_RESOURCE_GROUP:
     type: string
     required: true

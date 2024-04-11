@@ -19,5 +19,5 @@ jobs:
         with: 
           
           AZURE_RESOURCE_GROUP: portal
-          AZURE_LOCATION: ''
+          AZURE_LOCATION: australiaeast
           STORAGE_ACCOUNT_NAME: "simongotest"
