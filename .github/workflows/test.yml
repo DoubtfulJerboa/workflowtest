@@ -17,7 +17,7 @@ jobs:
       - name: Vnet orchestration
         uses: ./vnet-orchestration
         with: 
-          GITHUB_ENVIRONMENT: ''
+          
           AZURE_RESOURCE_GROUP: portal
           AZURE_LOCATION: ''
-          VNET_NAME: ''
+          STORAGE_ACCOUNT_NAME: "simongotest"
