@@ -35,20 +35,14 @@ runs:
       run: |
         echo '### V-Net Heartbeat' >> $GITHUB_STEP_SUMMARY
         # Check if a vnet exists already with the name
-        query=$(az network vnet list --resource-group ${{ inputs.AZURE_RESOURCE_GROUP }})
+        query=$(az network vnet list --resource-group ${{ inputs.AZURE_RESOURCE_GROUP }} --query "[?name == '${{ steps.vnetname.outputs.vnetname }}']")
         len=$(echo "$query" | jq 'length')
         if [ "$len" -eq 0 ]; then
           echo "vnet=missing" >> $GITHUB_OUTPUT
           echo 'No vnet found' >> $GITHUB_STEP_SUMMARY
         else
-          allfound=$(echo "$query" | jq '.[].name')
-          search=$(echo "$query" | jq ".[] | select(.name==\"${{ steps.vnetname.outputs.vnetname }}\") | .name")
-          msg=$"Found:\n$allfound"
-          echo -e "$msg" >> $GITHUB_STEP_SUMMARY
-          if ! [ $search ]; then
-            echo "vnet=missing" >> $GITHUB_OUTPUT
-            echo "${{ steps.vnetname.outputs.vnetname }} not found" >> $GITHUB_STEP_SUMMARY
-          fi
+          found=$(echo "$query" | jq '.[].name')
+          echo -e "Found vnet - $found" >> $GITHUB_STEP_SUMMARY
         fi
 
     - name: 'Create a virtual network'
