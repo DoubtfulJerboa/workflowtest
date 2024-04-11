@@ -20,4 +20,4 @@ jobs:
           
           AZURE_RESOURCE_GROUP: portal
           AZURE_LOCATION: australiaeast
-          STORAGE_NAME: "simongotest"
+          AZURE_STORAGE_NAME: "simongotest"
