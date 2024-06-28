@@ -3,21 +3,12 @@ name: Test Modular Ochestration
 on:
   - push
 
+env:
+  PYTHON_VERSION: 3.11.4
 jobs:
-  azure-orchestration:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: windows-2022
+    name: test goooo
     steps:
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - uses: actions/checkout@v3 # necessary for using local actions
-      
-      - name: Vnet orchestration
-        uses: ./vnet-orchestration
-        with: 
-          
-          AZURE_RESOURCE_GROUP: portal
-          AZURE_LOCATION: australiaeast
-          AZURE_STORAGE_NAME: "simongodatatest"
+      - uses: actions/checkout@v4
+      - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v1
