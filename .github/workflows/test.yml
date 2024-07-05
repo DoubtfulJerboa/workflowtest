@@ -11,4 +11,4 @@ jobs:
     name: test goooo
     steps:
       - uses: actions/checkout@v4
-      # - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v9
+      - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v9
