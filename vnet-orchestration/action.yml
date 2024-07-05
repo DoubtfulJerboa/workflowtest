@@ -1,46 +1,46 @@
-name: Azure Storage Account Ochestration
-description: Orchestrates the azure storage account
+# name: Azure Storage Account Ochestration
+# description: Orchestrates the azure storage account
 
-inputs:
-  AZURE_RESOURCE_GROUP:
-    type: string
-    required: true
-  AZURE_LOCATION:
-    required: true
-    type: string
-  AZURE_STORAGE_NAME:
-    required: true
-    type: string
+# inputs:
+#   AZURE_RESOURCE_GROUP:
+#     type: string
+#     required: true
+#   AZURE_LOCATION:
+#     required: true
+#     type: string
+#   AZURE_STORAGE_NAME:
+#     required: true
+#     type: string
 
 
 
-runs:
-  using: 'composite'
-  steps:        
-    - name: Storage Account heartbeat
-      shell: bash
-      id: heartbeat
-      run: |
-        echo '### Storage Account Heartbeat' >> $GITHUB_STEP_SUMMARY
-        ## Storage Account ##
-        query=$(az storage account list --resource-group ${{ inputs.AZURE_RESOURCE_GROUP }} --query "[?name=='${{ inputs.AZURE_STORAGE_NAME }}']")
-        result=$(echo "$query" | jq 'length')
-        if [ "$result" -eq 0 ]; then
-          echo "storage=missing" >> $GITHUB_OUTPUT
-          echo "No storage account found" >> $GITHUB_STEP_SUMMARY
-        else
-          found=$(echo "$query" | jq '.[].name')
-          echo -e "Found storage account - $found" >> $GITHUB_STEP_SUMMARY
-        fi
+# runs:
+#   using: 'composite'
+#   steps:        
+#     - name: Storage Account heartbeat
+#       shell: bash
+#       id: heartbeat
+#       run: |
+#         echo '### Storage Account Heartbeat' >> $GITHUB_STEP_SUMMARY
+#         ## Storage Account ##
+#         query=$(az storage account list --resource-group ${{ inputs.AZURE_RESOURCE_GROUP }} --query "[?name=='${{ inputs.AZURE_STORAGE_NAME }}']")
+#         result=$(echo "$query" | jq 'length')
+#         if [ "$result" -eq 0 ]; then
+#           echo "storage=missing" >> $GITHUB_OUTPUT
+#           echo "No storage account found" >> $GITHUB_STEP_SUMMARY
+#         else
+#           found=$(echo "$query" | jq '.[].name')
+#           echo -e "Found storage account - $found" >> $GITHUB_STEP_SUMMARY
+#         fi
 
-    - name: Create Storage Account
-      shell: bash
-      if: steps.heartbeat.outputs.storage == 'missing'
-      run: |
-          # az storage account create \
-          #   --resource-group '${{ inputs.AZURE_RESOURCE_GROUP }}' \
-          #   --name '${{ inputs.AZURE_STORAGE_NAME }}' \
-          #   --location '${{ inputs.AZURE_LOCATION }}'
+#     - name: Create Storage Account
+#       shell: bash
+#       if: steps.heartbeat.outputs.storage == 'missing'
+#       run: |
+#           # az storage account create \
+#           #   --resource-group '${{ inputs.AZURE_RESOURCE_GROUP }}' \
+#           #   --name '${{ inputs.AZURE_STORAGE_NAME }}' \
+#           #   --location '${{ inputs.AZURE_LOCATION }}'
 
-          # echo 'Storage Account | Created' >> $GITHUB_STEP_SUMMARY
+#           # echo 'Storage Account | Created' >> $GITHUB_STEP_SUMMARY
             
