@@ -12,3 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v11
+        with:
+          PYTHON_VERSION: 3.12.4
+          REQUIREMENTS_PATH: ./requirements.txt
