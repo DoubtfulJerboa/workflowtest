@@ -21,3 +21,5 @@ jobs:
       - uses: DoubtfulJerboa/jsaction/actions/compile-inno-setup@v13
         with:
           ISS_PATH: ./setup.iss
+        env:
+          GH_TOKEN: ${{ github.token }}
