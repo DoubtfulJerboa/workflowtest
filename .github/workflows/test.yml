@@ -19,3 +19,5 @@ jobs:
       - run: ls
 
       - uses: DoubtfulJerboa/jsaction/actions/compile-inno-setup@v13
+        with:
+          ISS_PATH: ./setup.iss
