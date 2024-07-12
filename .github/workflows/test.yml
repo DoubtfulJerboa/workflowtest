@@ -17,3 +17,5 @@ jobs:
           REQUIREMENTS_PATH: ./requirements.txt
       - uses: DoubtfulJerboa/jsaction/actions/fetch-nssm@v12
       - run: ls
+
+      - uses: DoubtfulJerboa/jsaction/actions/compile-inno-setup@v13
