@@ -11,7 +11,9 @@ jobs:
     name: test goooo
     steps:
       - uses: actions/checkout@v4
-      - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v11
+      - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v12
         with:
           PYTHON_VERSION: 3.12.4
           REQUIREMENTS_PATH: ./requirements.txt
+      - uses: DoubtfulJerboa/jsaction/actions/fetch-nssm@v12
+      - run: ls
