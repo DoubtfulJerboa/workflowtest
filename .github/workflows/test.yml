@@ -27,17 +27,19 @@ jobs:
           ISS_PATH: ./setup.iss
 
       - id: createRelease
-        uses: DoubtfulJerboa/jsaction/actions/create-release@v15
+        uses: actions/create-release@v1.1.4
         with:
-          RELEASE_TAG: ${{steps.compileISS.outputs.releaseTag}}
+          tag_name: ${{steps.compileISS.outputs.releaseTag}}
+          release_name: ${{steps.compileISS.outputs.releaseTag}}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - id: attachExe
-        uses: DoubtfulJerboa/jsaction/actions/attach-to-release@v15
+        uses: actions/upload-release-asset@v1.0.2
         with:
-          RELEASE_ID: ${{steps.createRelease.outputs.releaseID}}
-          FILE_PATH: ./Release
-          FILE_NAME: ${{steps.compileISS.outputs.releaseFile}}
+          upload_url: ${{steps.createRelease.outputs.upload_url}}
+          asset_path: ./Release/${{steps.compileISS.outputs.releaseFile}}
+          asset_name: ${{steps.compileISS.outputs.releaseFile}}
+          asset_content_type: application/octet-stream 
         env:
           GITHUB_TOKEN: ${{ github.token }}
