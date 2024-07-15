@@ -20,7 +20,7 @@ jobs:
       - uses: DoubtfulJerboa/jsaction/actions/fetch-nssm@v12
       - run: ls
 
-      - uses: DoubtfulJerboa/jsaction/actions/compile-inno-setup@v13
+      - uses: DoubtfulJerboa/jsaction/actions/compile-inno-setup@v14
         with:
           ISS_PATH: ./setup.iss
         env:
