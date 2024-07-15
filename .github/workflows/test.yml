@@ -9,6 +9,8 @@ jobs:
   test:
     runs-on: windows-2022
     name: test goooo
+    permissions:
+      contents: write # for creating a release
     steps:
       - uses: actions/checkout@v4
       - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v12
