@@ -3,43 +3,13 @@ name: Test Modular Ochestration
 on:
   - push
 
-env:
-  PYTHON_VERSION: 3.11.4
+  
 jobs:
   test:
-    runs-on: windows-2022
-    name: test goooo
-    permissions:
-      contents: write # for creating a release
-    steps:
-      - uses: actions/checkout@v4
-      - uses: DoubtfulJerboa/jsaction/actions/python-embed-setup@v15
-        with:
-          PYTHON_VERSION: 3.12.4
-          REQUIREMENTS_PATH: ./requirements.txt
+    uses: DoubtfulJerboa/jsaction/.github/workflows/compile-py-service-installer.yml@callableworkflow
+    with:
+      PYTHON_VERSION: 3.11.4
+      REQUIREMENTS_PATH: ./requirements.txt
+      ISS_PATH: ./setup.iss
 
-      - uses: DoubtfulJerboa/jsaction/actions/fetch-nssm@v15
-      - run: ls
-
-      - id: compileISS
-        uses: DoubtfulJerboa/jsaction/actions/compile-inno-setup@v15
-        with:
-          ISS_PATH: ./setup.iss
-
-      - id: createRelease
-        uses: actions/create-release@v1.1.4
-        with:
-          tag_name: ${{steps.compileISS.outputs.releaseTag}}
-          release_name: ${{steps.compileISS.outputs.releaseTag}}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - id: attachExe
-        uses: actions/upload-release-asset@v1.0.2
-        with:
-          upload_url: ${{steps.createRelease.outputs.upload_url}}
-          asset_path: ./Release/${{steps.compileISS.outputs.releaseFile}}
-          asset_name: ${{steps.compileISS.outputs.releaseFile}}
-          asset_content_type: application/octet-stream 
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+    secrets: inherit
